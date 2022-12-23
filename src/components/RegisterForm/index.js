@@ -2,16 +2,19 @@ import {Component} from 'react'
 import {v4 as uuidv4} from 'uuid'
 
 class RegisterForm extends Component {
-  state = {
-    userImage: '',
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    dateOfBirth: '',
-    address: '',
-    mobileNumber: '',
-    userDetailsArray: [],
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      userImage: '',
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+      dateOfBirth: '',
+      address: '',
+      mobileNumber: '',
+    }
   }
 
   userPhoto = event => {
@@ -57,11 +60,10 @@ class RegisterForm extends Component {
       dateOfBirth,
       address,
       mobileNumber,
-      userDetailsArray,
     } = this.state
 
     const newUserData = {
-      id: uuidv4(),
+      id: new Date().getTime().toString(),
       userImage,
       firstName,
       lastName,
@@ -72,16 +74,17 @@ class RegisterForm extends Component {
       mobileNumber,
     }
 
-    this.setState(prevState => ({
-      userDetailsArray: [...prevState.userDetailsArray, newUserData],
-    }))
-
-    localStorage.setItem('UserDetails', JSON.stringify(userDetailsArray))
+    if (localStorage.getItem('UserDetails')) {
+      const oldUsers = JSON.parse(localStorage.getItem('UserDetails'))
+      const allUsers = [...oldUsers, newUserData]
+      localStorage.setItem('UserDetails', JSON.stringify(allUsers))
+    } else {
+      localStorage.setItem('UserDetails', JSON.stringify([newUserData]))
+    }
+    console.log(localStorage.getItem('UserDetails'))
   }
 
   render() {
-    const {userDetailsArray} = this.state
-
     return (
       <div>
         <form onSubmit={this.onSubmitForm}>

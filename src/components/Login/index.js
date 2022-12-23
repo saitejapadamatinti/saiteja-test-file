@@ -1,11 +1,13 @@
 import {Component} from 'react'
-import {log} from 'util'
 
 class Login extends Component {
-  state = {
-    email: '',
-    password: '',
-    storedCredArray: [],
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      email: '',
+      password: '',
+    }
   }
 
   emailState = event => {
@@ -16,26 +18,32 @@ class Login extends Component {
     this.setState({password: event.target.value})
   }
 
-  onSubmitForm = event => {
-    event.preventDefault()
-    const {email, password, registerUserData} = this.state
+  onSubmitForm = e => {
+    e.preventDefault()
+    const {email, password} = this.state
+    let allUsersList = []
+    if (localStorage.getItem('UserDetails')) {
+      allUsersList = JSON.parse(localStorage.getItem('UserDetails'))
+    }
 
-    const userDetailsFromLocalStorage = JSON.parse(
-      localStorage.getItem('UserDetails'),
-    )
+    const requiredUser = allUsersList.find(eachUser => eachUser.email === email)
+    console.log(requiredUser)
 
-    const data = userDetailsFromLocalStorage.map(each => ({
-      storedEmail: each.email,
-      storedPassword: each.password,
-    }))
-    // console.log(data)
-    this.setState({storedCredArray: data})
+    if (!requiredUser) {
+      alert('User not found')
+      return
+    }
+
+    if (requiredUser.password !== password) {
+      alert('Password not match.')
+      return
+    }
+
+    const {loginUser} = this.props
+    loginUser(requiredUser)
   }
 
   render() {
-    const {storedCredArray, passwodTrue, emailTrue} = this.state
-    console.log(storedCredArray)
-
     return (
       <div>
         <form onSubmit={this.onSubmitForm}>
