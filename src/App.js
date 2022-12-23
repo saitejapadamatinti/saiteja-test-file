@@ -2,6 +2,9 @@ import React, {useState, useEffect} from 'react'
 import {BrowserRouter, Switch, Route} from 'react-router-dom'
 import RegisterForm from './components/RegisterForm'
 import Login from './components/Login'
+import Home from './components/Home'
+import Header from './components/Header'
+import Profile from './components/Profile'
 
 import './App.css'
 
@@ -32,7 +35,8 @@ const App = () => {
     <>
       <BrowserRouter>
         <Switch>
-          <Route exact path="/Register">
+          <Route exact path="/" component={Home} />
+          <Route exact path="/register">
             <RegisterForm />
           </Route>
           <Route exact path="/login">
@@ -43,6 +47,7 @@ const App = () => {
               currentUser={currentUser}
             />
           </Route>
+          <Route exact path="/profile" component={Profile} />
         </Switch>
       </BrowserRouter>
     </>

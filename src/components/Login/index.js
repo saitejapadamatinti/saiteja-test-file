@@ -1,4 +1,6 @@
 import {Component} from 'react'
+import './index.css'
+import Header from '../Header'
 
 class Login extends Component {
   constructor(props) {
@@ -45,19 +47,31 @@ class Login extends Component {
 
   render() {
     return (
-      <div>
-        <form onSubmit={this.onSubmitForm}>
-          <input onChange={this.emailState} placeholder="Email" type="email" />
-          <br />
-          <input
-            onChange={this.onChangePassword}
-            placeholder="Password"
-            type="password"
-          />
-          <br />
-          <button type="submit">Submit</button>
-        </form>
-      </div>
+      <>
+        <Header />
+        <div className="register-main-div">
+          <form className="register-form" onSubmit={this.onSubmitForm}>
+            <div className="main-head-div">
+              <h1>Login</h1>
+            </div>
+            <input
+              className="register-input"
+              onChange={this.emailState}
+              placeholder="Email"
+              type="email"
+            />
+            <br />
+            <input
+              className="register-input"
+              onChange={this.onChangePassword}
+              placeholder="Password"
+              type="password"
+            />
+            <br />
+            <button type="submit">Submit</button>
+          </form>
+        </div>
+      </>
     )
   }
 }

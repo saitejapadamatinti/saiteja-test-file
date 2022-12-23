@@ -1,5 +1,8 @@
 import {Component} from 'react'
-import {v4 as uuidv4} from 'uuid'
+import './index.css'
+import {Redirect} from 'react-router-dom'
+import emailjs from '@emailjs/browser'
+import Header from '../Header'
 
 class RegisterForm extends Component {
   constructor(props) {
@@ -14,6 +17,7 @@ class RegisterForm extends Component {
       dateOfBirth: '',
       address: '',
       mobileNumber: '',
+      isRegisterd: false,
     }
   }
 
@@ -60,80 +64,148 @@ class RegisterForm extends Component {
       dateOfBirth,
       address,
       mobileNumber,
+      isRegisterd,
     } = this.state
 
-    const newUserData = {
-      id: new Date().getTime().toString(),
-      userImage,
-      firstName,
-      lastName,
-      email,
-      password,
-      dateOfBirth,
-      address,
-      mobileNumber,
-    }
-
-    if (localStorage.getItem('UserDetails')) {
-      const oldUsers = JSON.parse(localStorage.getItem('UserDetails'))
-      const allUsers = [...oldUsers, newUserData]
-      localStorage.setItem('UserDetails', JSON.stringify(allUsers))
+    if (
+      (firstName ||
+        lastName ||
+        email ||
+        password ||
+        dateOfBirth ||
+        address ||
+        mobileNumber) === ''
+    ) {
+      alert('Please Enter Valid Details')
     } else {
-      localStorage.setItem('UserDetails', JSON.stringify([newUserData]))
+      const newUserData = {
+        id: new Date().getTime().toString(),
+        userImage,
+        firstName,
+        lastName,
+        email,
+        password,
+        dateOfBirth,
+        address,
+        mobileNumber,
+      }
+
+      emailjs
+        .send(
+          'service_pax5kpn',
+          'template_vb7xrd9',
+          {
+            userImage: this.userImage,
+            firstName: this.firstName,
+            lastName: this.lastName,
+            email: this.email,
+            dateOfBirth: this.dateOfBirth,
+            address: this.address,
+            mobileNumber: this.mobileNumber,
+          },
+          'KZJVUQ_aPMo05bF8G',
+        )
+        .then(
+          result => {
+            console.log(result.text)
+          },
+          error => {
+            console.log(error.text)
+          },
+        )
+
+      if (localStorage.getItem('UserDetails')) {
+        const oldUsers = JSON.parse(localStorage.getItem('UserDetails'))
+        const allUsers = [...oldUsers, newUserData]
+        localStorage.setItem('UserDetails', JSON.stringify(allUsers))
+      } else {
+        localStorage.setItem('UserDetails', JSON.stringify([newUserData]))
+      }
+      console.log(localStorage.getItem('UserDetails'))
+
+      this.setState({isRegisterd: true})
     }
-    console.log(localStorage.getItem('UserDetails'))
   }
 
   render() {
-    return (
-      <div>
-        <form onSubmit={this.onSubmitForm}>
-          <input onClick={this.userPhoto} type="file" /> <br />
-          <input
-            onChange={this.onChangeFirstName}
-            placeholder="Firstname"
-            type="text"
-          />
-          <br />
-          <input
-            onChange={this.onChangeLastName}
-            placeholder="Lastname"
-            type="text"
-          />
-          <br />
-          <input onChange={this.emailState} placeholder="Email" type="email" />
-          <br />
-          <input
-            onChange={this.onChangePassword}
-            placeholder="Password"
-            type="password"
-          />
-          <br />
-          <input
-            onChange={this.onChangeDob}
-            type="date"
-            id="start"
-            name="trip-start"
-            value="2018-07-22"
-            min="2018-01-01"
-            max="2018-12-31"
-          />
-          <br />
-          <input
-            onChange={this.onChangeAddress}
-            placeholder="Address"
-            type="text"
-          />
-          <br />
-          <input
-            onChange={this.onChangeNumber}
-            placeholder="Mobile"
-            type="number"
-          />
-          <br />
-          <button type="submit">Submit</button>
-        </form>
-      </div>
+    const {isRegisterd} = this.state
+    console.log(isRegisterd)
+
+    return isRegisterd ? (
+      <Redirect to="/login" />
+    ) : (
+      <>
+        <Header />
+        <div className="register-main-div">
+          <form className="register-form" onSubmit={this.onSubmitForm}>
+            <div className="main-head-div">
+              <h1>Register Here</h1>
+            </div>
+            <input
+              className="file-input"
+              onClick={this.userPhoto}
+              type="file"
+            />
+            <input
+              name="firstName"
+              className="register-input"
+              onChange={this.onChangeFirstName}
+              placeholder="Firstname"
+              type="text"
+            />
+            <input
+              name="lastName"
+              className="register-input"
+              onChange={this.onChangeLastName}
+              placeholder="Lastname"
+              type="text"
+            />
+            <input
+              name="email"
+              className="register-input"
+              onChange={this.emailState}
+              placeholder="Email"
+              type="email"
+            />
+            <input
+              name="firstName"
+              className="register-input"
+              onChange={this.onChangePassword}
+              placeholder="Password"
+              type="password"
+            />
+            <input
+              className="register-input"
+              onChange={this.onChangeDob}
+              type="date"
+              id="start"
+              name="dateOfBirth"
+              value="2018-07-22"
+              min="2018-01-01"
+              max="2018-12-31"
+            />
+            <input
+              name="address"
+              className="register-input"
+              onChange={this.onChangeAddress}
+              placeholder="Address"
+              type="text"
+            />
+            <input
+              name="mobileNumber"
+              className="register-input"
+              onChange={this.onChangeNumber}
+              placeholder="Mobile"
+              type="number"
+            />
+            <div className="button-div">
+              <button name="send" type="submit">
+                Submit
+              </button>
+            </div>
+          </form>
+        </div>
+      </>
     )
   }
 }
