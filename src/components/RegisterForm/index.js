@@ -93,16 +93,16 @@ class RegisterForm extends Component {
 
       emailjs
         .send(
-          'service_pax5kpn',
-          'template_vb7xrd9',
+          'service_mwr1m1g',
+          'template_4fszffo',
           {
-            userImage: this.userImage,
-            firstName: this.firstName,
-            lastName: this.lastName,
-            email: this.email,
-            dateOfBirth: this.dateOfBirth,
-            address: this.address,
-            mobileNumber: this.mobileNumber,
+            userImage: newUserData.userImage,
+            firstName: newUserData.firstName,
+            lastname: newUserData.lastName,
+            email: newUserData.email,
+            DateofBirth: newUserData.dateOfBirth,
+            address: newUserData.address,
+            mobileNumber: newUserData.mobileNumber,
           },
           'KZJVUQ_aPMo05bF8G',
         )
@@ -148,7 +148,7 @@ class RegisterForm extends Component {
               type="file"
             />
             <input
-              name="firstName"
+              name="message"
               className="register-input"
               onChange={this.onChangeFirstName}
               placeholder="Firstname"
