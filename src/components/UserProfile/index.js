@@ -13,7 +13,7 @@ const Profile = () => {
       <div>
         <h1>User Profile</h1>
         <div>
-          <img />
+          <img src={currentUser.userImage} alt="userImage" />
           <div>
             <h1>First Name : {currentUser.firstName}</h1>
             <h1>Last Name : {currentUser.lastName}</h1>

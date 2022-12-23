@@ -23,6 +23,7 @@ class RegisterForm extends Component {
 
   userPhoto = event => {
     this.setState({userImage: event.target.value})
+    console.log(event.target.value)
   }
 
   onChangeFirstName = event => {
@@ -144,7 +145,7 @@ class RegisterForm extends Component {
             </div>
             <input
               className="file-input"
-              onClick={this.userPhoto}
+              onChange={this.userPhoto}
               type="file"
             />
             <input
