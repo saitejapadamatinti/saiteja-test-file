@@ -98,7 +98,7 @@ class RegisterForm extends Component {
           'template_4fszffo',
           {
             userImage: newUserData.userImage,
-            firstName: newUserData.firstName,
+            firstname: newUserData.firstName,
             lastname: newUserData.lastName,
             email: newUserData.email,
             DateofBirth: newUserData.dateOfBirth,
