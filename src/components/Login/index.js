@@ -1,4 +1,5 @@
 import {Component} from 'react'
+import {Redirect} from 'react-router-dom'
 import './index.css'
 import Header from '../Header'
 
@@ -9,6 +10,7 @@ class Login extends Component {
     this.state = {
       email: '',
       password: '',
+      isLogin: false,
     }
   }
 
@@ -41,11 +43,19 @@ class Login extends Component {
       return
     }
 
+    this.setState({isLogin: true})
+
     const {loginUser} = this.props
     loginUser(requiredUser)
   }
 
   render() {
+    const {isLogin} = this.state
+
+    if (isLogin === true) {
+      return <Redirect to="/profile" />
+    }
+
     return (
       <>
         <Header />

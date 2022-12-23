@@ -88,6 +88,7 @@ class RegisterForm extends Component {
         dateOfBirth,
         address,
         mobileNumber,
+        isRegisterd,
       }
 
       emailjs

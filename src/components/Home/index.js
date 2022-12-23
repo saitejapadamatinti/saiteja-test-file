@@ -6,7 +6,9 @@ class Home extends Component {
     return (
       <>
         <Header />
-        <div>dwefrg</div>
+        <div>
+          <h1>Home Page</h1>
+        </div>
       </>
     )
   }

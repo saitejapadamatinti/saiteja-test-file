@@ -4,7 +4,7 @@ import RegisterForm from './components/RegisterForm'
 import Login from './components/Login'
 import Home from './components/Home'
 import Header from './components/Header'
-import Profile from './components/Profile'
+import Profile from './components/UserProfile'
 
 import './App.css'
 
@@ -47,7 +47,13 @@ const App = () => {
               currentUser={currentUser}
             />
           </Route>
-          <Route exact path="/profile" component={Profile} />
+          <Route exact path="/profile">
+            <Profile
+              loginUser={loginUser}
+              logoutUser={logoutUser}
+              currentUser={currentUser}
+            />
+          </Route>
         </Switch>
       </BrowserRouter>
     </>
